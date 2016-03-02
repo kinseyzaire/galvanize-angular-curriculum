@@ -1,0 +1,48 @@
+<div class="row-fluid">
+  <center>
+    <button class="btn btn-default" onclick="history.back(-1)">Continue Shopping</button>
+    <a href="#/"><button class="btn btn-warning" ng-click="emptyBag()" ng-show="bag.length > 0">Empty Shopping Cart</button></a>
+  </center>
+  <div class="mainthing" style="padding:25px;">
+    <h3 class="text-right text-warning">Shopping Cart Total {{cost/100 | currency}}</h3>
+    <table class="table" ng-init="checkout()">
+      <thead>
+        <tr>
+          <th>ITEMS</th>
+          <th>QTY</th>
+          <th>SUBTOTAL</th>
+          <th>&nbsp;</th>
+        </tr>
+      </thead>
+      <tbody ng-repeat="item in bag">
+        <tr>
+          <td>
+            <div class="pull-left col-sm-2">
+              <img ng-src="{{item.tea.imageUrl}}" width="100px"><br>
+            </div>
+            <div class="pull-right col-sm-9">
+              <h4>{{item.tea.name}}</h4>
+              <h5>Caffeine scale {{item.tea.caffeineScale}}</h5>
+              <h5>Ingredients {{item.tea.ingredients}}</h5>
+              <h5>Rating {{item.tea.rating}}</h5>
+            </div>
+          </td>
+          <td ng-show="!item.editing">
+            {{item.quantity}}
+          </td>
+          <td ng-show="item.editing">
+            <input style="width:50px;" class="form-input" type="number" value="item.quantity" ng-model="newQuantity">
+          </td>
+          <td>
+            {{item.quantity * item.tea.price/100 | currency}}
+          </td>
+          <td class="text-right">
+            <button style="margin-bottom:5px;" class="btn btn-default" ng-show="!item.editing" ng-click="editLineItem($index, {newQuantity: item.quantity})">Edit</button>
+            <button style="margin-bottom:5px;" class="btn btn-default" ng-show="item.editing" ng-click="editLineItem($index, this)">Save</button>
+            <button style="margin-bottom:5px;" class="btn btn-warning" ng-click="removeLineItem($index)">Remove</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

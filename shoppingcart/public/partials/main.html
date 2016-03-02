@@ -1,0 +1,63 @@
+<div class="row-fluid">
+  <form>
+    <label ng-init="initCategories()">Filter by category:
+      <select ng-model="categorysearch.categories" class="form-input">
+        <option ng-repeat="category in categories">{{category}}</option>
+      </select>
+    </label>
+    <label>Search
+      <input type="text" ng-model="namesearch.name" class="form-input">
+    </label>
+    <br>
+    <button ng-show="bag.length === 0" class="btn btn-default">Your Shopping Cart is Empty</button>
+    <a href="#/checkout"><button ng-show="bag.length > 0" class="btn btn-default">Shopping Cart | {{count}} </button></a>
+    <button ng-click="emptyBag()" ng-show="bag.length > 0" class="btn btn-default">Empty Cart</button>
+  </form>
+  <div class="mainthing">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>TEA</th>
+          <th>INFORMATION</th>
+          <th>
+            <label>
+              <select ng-model="sorter">
+                <option value="price" selected="selected">Lowest Cost</option>
+                <option value="-price">Highest Cost</option>
+              </select>
+            </label>
+          </th>
+        </tr>
+      </thead>
+      <tbody ng-repeat="tea in teas | filter:namesearch | filter:categorysearch | orderBy:sorter">
+        <tr>
+          <td>
+            <img ng-src="{{tea.imageUrl}}">
+          </td>
+          <td>
+            <h3>{{tea.name}}</h3>
+            <h4>{{tea.price/100 | currency}}</h4>
+            <h5>Ingredients</h5>
+            <p class="lead">{{tea.ingredients}}</p>
+            <h5>Caffeine Scale {{tea.caffeineScale}}</h5>
+            <h5>Rating {{tea.rating}}</h5>
+            <h5 ng-show="tea.inStock">Currently in stock</h5>
+            <h5 ng-show="!tea.inStock">We are currently out of this item</h5>
+            <h4>Categories</h4>
+            <p>
+              <span ng-repeat="category in tea.categories">{{category}} </span>
+            </p>
+          </td>
+          <td>
+            <form>
+              <label>Quantity
+                <input type="number" name="qty" value="1" class="form-control" ng-model="addQuantity">
+              </label><br><br>
+              <button class="btn btn-warning" ng-click="addToBag(this)">Add to bag</button>
+            </form>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
